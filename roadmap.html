@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaler 12-Month Roadmap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
+  />
+  <style>
+    :root {
+      --font: "Plus Jakarta Sans", sans-serif;
+      --font-display: "Source Serif 4", serif;
+      --bg: #0f0f10;
+      --bg-soft: #171719;
+      --card: rgba(255, 255, 255, 0.04);
+      --card-strong: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.10);
+      --border-strong: rgba(255, 255, 255, 0.18);
+      --text: #f5f5f5;
+      --text-soft: #a6a6a6;
+      --text-faint: #717171;
+      --accent: #6377ff;
+      --accent-2: #a064ff;
+      --accent-3: #f2b84a;
+      --max: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      border-radius: 0 !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(99, 119, 255, 0.12), transparent 24%),
+        radial-gradient(circle at 50% 100%, rgba(160, 100, 255, 0.10), transparent 24%),
+        linear-gradient(180deg, #171718 0%, #101011 14%, #0f0f10 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 42px 0 150px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .headline {
+      margin: 14px auto 0;
+      max-width: 760px;
+      font-family: var(--font-display);
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+    }
+
+    .subcopy {
+      margin: 18px auto 0;
+      max-width: 680px;
+      color: var(--text-soft);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 999px !important;
+      border: 1px solid var(--border-strong);
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.18), transparent 36%),
+        linear-gradient(180deg, rgba(99, 119, 255, 0.26), rgba(160, 100, 255, 0.18));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 28px rgba(99, 119, 255, 0.16);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 999px !important;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+    }
+
+    .avatar-portrait {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .roadmap-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 180px;
+      gap: 34px;
+      align-items: start;
+      margin-top: 28px;
+    }
+
+    .narrator {
+      position: sticky;
+      top: 20px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+      padding: 18px 14px;
+    }
+
+    .narrator-top {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .sound-bars {
+      display: inline-flex;
+      gap: 3px;
+      align-items: end;
+      height: 14px;
+    }
+
+    .sound-bars span {
+      width: 3px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      animation: bars 1s ease-in-out infinite;
+    }
+
+    .sound-bars span:nth-child(1) { height: 8px; animation-delay: 0s; }
+    .sound-bars span:nth-child(2) { height: 14px; animation-delay: 0.1s; }
+    .sound-bars span:nth-child(3) { height: 10px; animation-delay: 0.2s; }
+    .sound-bars span:nth-child(4) { height: 12px; animation-delay: 0.3s; }
+
+    @keyframes bars {
+      0%, 100% { transform: scaleY(0.7); opacity: 0.6; }
+      50% { transform: scaleY(1.2); opacity: 1; }
+    }
+
+    .narrator-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .micro-button {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 12px;
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .micro-button.muted {
+      color: var(--text-soft);
+    }
+
+    .timeline {
+      position: relative;
+      padding: 18px 0 24px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, rgba(99, 119, 255, 0.08), rgba(99, 119, 255, 0.46), rgba(160, 100, 255, 0.46));
+      box-shadow: 0 0 36px rgba(99, 119, 255, 0.22);
+    }
+
+    .step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 92px 1fr;
+      gap: 18px;
+      align-items: center;
+      min-height: 360px;
+      padding: 10px 0;
+      cursor: pointer;
+    }
+
+    .step.no-expand {
+      cursor: default;
+    }
+
+    .content {
+      padding: 0 6px;
+      transition: transform 180ms ease, opacity 180ms ease;
+    }
+
+    .content.left {
+      grid-column: 1;
+      text-align: right;
+    }
+
+    .content.right {
+      grid-column: 3;
+      text-align: left;
+    }
+
+    .time {
+      margin-bottom: 10px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .title {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .one-liner {
+      margin: 10px 0 0;
+      color: var(--text-soft);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 380px;
+    }
+
+    .content.left .one-liner {
+      margin-left: auto;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .content.left .chips {
+      justify-content: flex-end;
+    }
+
+    .chip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .chip.ai-role::after {
+      content: "NEW";
+      position: static;
+      min-width: 24px;
+      height: 16px;
+      padding: 0 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: var(--text);
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      order: -1;
+    }
+
+    .chip.ai-role {
+      padding: 8px 10px;
+    }
+
+    .chip.mentor {
+      border-color: rgba(242, 184, 74, 0.24);
+      color: #f0cf8e;
+      background: rgba(242, 184, 74, 0.08);
+    }
+
+    .chip.active {
+      border-color: rgba(99, 119, 255, 0.34);
+      background: rgba(99, 119, 255, 0.12);
+    }
+
+    .center {
+      grid-column: 2;
+      display: flex;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .node {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px !important;
+      background: radial-gradient(circle at 35% 35%, #ffffff, #d7d7d7 58%, #b8b8b8 100%);
+      border: 5px solid rgba(255, 255, 255, 0.08);
+      box-shadow:
+        0 0 0 6px rgba(255, 255, 255, 0.025),
+        0 0 0 12px rgba(99, 119, 255, 0.08);
+    }
+
+    .node.active {
+      box-shadow:
+        0 0 0 6px rgba(255, 255, 255, 0.04),
+        0 0 0 12px rgba(99, 119, 255, 0.18),
+        0 0 28px rgba(99, 119, 255, 0.42);
+    }
+
+    .step:hover .content,
+    .step.is-open .content {
+      transform: translateY(-4px);
+    }
+
+    .step.no-expand:hover .content {
+      transform: none;
+    }
+
+    .step:focus-visible {
+      outline: 2px solid rgba(99, 119, 255, 0.4);
+      outline-offset: 8px;
+    }
+
+    .expand-panel {
+      grid-column: 1 / -1;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition:
+        max-height 260ms ease,
+        opacity 200ms ease,
+        transform 200ms ease,
+        margin-top 200ms ease;
+      margin-top: 0;
+      pointer-events: none;
+    }
+
+    .step.is-open .expand-panel {
+      max-height: 560px;
+      opacity: 1;
+      transform: translateY(0);
+      margin-top: 8px;
+      pointer-events: auto;
+    }
+
+    .expand-shell {
+      margin: 0 auto;
+      width: min(820px, calc(100% - 48px));
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
+      padding: 18px;
+    }
+
+    .expand-label {
+      margin: 0 0 10px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .expand-title {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .expand-copy {
+      margin: 8px 0 0;
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .expand-gallery {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .placeholder-image {
+      min-height: 210px;
+      border: 1px dashed rgba(255, 255, 255, 0.18);
+      background:
+        linear-gradient(135deg, rgba(99, 119, 255, 0.12), rgba(160, 100, 255, 0.08)),
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02) 0,
+          rgba(255, 255, 255, 0.02) 22px,
+          rgba(255, 255, 255, 0.04) 22px,
+          rgba(255, 255, 255, 0.04) 44px
+        );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      text-align: center;
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .placeholder-image.image-reference {
+      min-height: 260px;
+      align-items: stretch;
+      justify-content: stretch;
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+      border-style: solid;
+      border-color: rgba(255, 255, 255, 0.10);
+    }
+
+    .roadmap-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .image-tag {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(15, 15, 16, 0.72);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-align: left;
+      backdrop-filter: blur(6px);
+    }
+
+    .panel {
+      margin: 32px auto 0;
+      width: min(780px, 100%);
+      padding: 22px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+    }
+
+    .panel h3 {
+      margin: 0 0 8px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .panel p {
+      margin: 0;
+      color: var(--text-soft);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .jobs {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .job {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.03);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .floating-actions {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 20;
+    }
+
+    .button,
+    .button-secondary {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 16px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      min-width: 220px;
+    }
+
+    .button {
+      border: none;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: var(--text);
+    }
+
+    .button-secondary {
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+    }
+
+    @media (max-width: 900px) {
+      .roadmap-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .narrator {
+        position: static;
+        order: -1;
+      }
+
+      .timeline::before {
+        left: 18px;
+      }
+
+      .avatar {
+        width: 72px;
+        height: 72px;
+      }
+
+      .step {
+        grid-template-columns: 36px 1fr;
+        gap: 16px;
+        min-height: auto;
+        padding: 6px 0 34px;
+      }
+
+      .center {
+        grid-column: 1;
+      }
+
+      .content,
+      .content.left,
+      .content.right {
+        grid-column: 2;
+        text-align: left;
+      }
+
+      .content.left .one-liner {
+        margin-left: 0;
+      }
+
+      .content.left .chips {
+        justify-content: flex-start;
+      }
+
+      .expand-shell {
+        width: 100%;
+      }
+
+      .image-tag {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        justify-content: center;
+      }
+
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: calc(100% - 24px);
+      }
+
+      .headline {
+        font-size: 42px;
+      }
+
+      .title {
+        font-size: 24px;
+      }
+
+      .floating-actions {
+        right: 12px;
+        left: 12px;
+        bottom: 12px;
+      }
+
+      .button,
+      .button-secondary {
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow">Your 12-month roadmap to</div>
+      <h1 class="headline">Learning and Building, with and from, AI.</h1>
+      <p class="subcopy">
+        TL;DR: Meet and greet orientation session, foundational modules, core modules,
+        choose a specialization, placements, and mentor check-ins all along the way.
+      </p>
+    </section>
+
+    <div class="roadmap-layout">
+      <section class="timeline" id="timeline-start">
+      <article class="step" data-time="Day 0" data-title="Meet and Greet session" data-script="This is where your journey begins. We welcome you in, introduce your AI companion, and make sure you understand what this year is actually going to demand from you." tabindex="0" role="button" aria-expanded="false" data-expandable="true">
+        <div class="content left">
+          <div class="time">Day 0</div>
+          <h2 class="title">Meet and Greet session</h2>
+          <p class="one-liner">Orientation session, features including your 24 x 7 AI companion and clarity on what the year will demand from you.</p>
+        </div>
+        <div class="center"><div class="node active"></div></div>
+        <div class="expand-panel">
+          <div class="expand-shell">
+            <p class="expand-label">Milestone walkthrough</p>
+            <h3 class="expand-title">Meet and Greet Session</h3>
+            <div class="expand-gallery">
+              <div class="placeholder-image image-reference">
+                <img class="roadmap-image" src="assets/roadmap/1st-milestone.png" alt="Meet and Greet orientation walkthrough" />
+                <span class="image-tag">Meet &amp; Greet preview</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="step" data-time="Day 1" data-title="First mentor session" data-script="On day one, you sit with an industry expert mentor of your choice and shape your Scaler journey with intention from the very beginning." tabindex="0" role="button" aria-expanded="false" data-expandable="true">
+        <div class="center"><div class="node"></div></div>
+        <div class="content right">
+          <div class="time">Day 1</div>
+          <h2 class="title">First mentor session</h2>
+          <p class="one-liner">Plan your Scaler journey with an industry expert mentor of your choice.</p>
+        </div>
+        <div class="expand-panel">
+          <div class="expand-shell">
+            <p class="expand-label">Milestone walkthrough</p>
+            <h3 class="expand-title">Select a mentor from a pool of Industry veterans and plan your scaler journey</h3>
+            <div class="expand-gallery">
+              <div class="placeholder-image image-reference">
+                <img class="roadmap-image" src="assets/roadmap/2nd-milestone.png" alt="Batch, mentor, and onboarding dashboard experience" />
+                <span class="image-tag">Mentor and dashboard preview</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="step" data-time="Day 2" data-title="1st class" data-script="Your first class unlocks the actual learning layer: your twenty-four by seven AI companion, live classes, industry-vetted assignments, and live TA support for uninterrupted problem solving." tabindex="0" role="button" aria-expanded="false" data-expandable="true">
+        <div class="content left">
+          <div class="time">Day 2</div>
+          <h2 class="title">1st class</h2>
+          <p class="one-liner">Unlock 24x7 AI companion, live classes, industry vetted assignments and live TA support for uninterrupted problem solving.</p>
+        </div>
+        <div class="center"><div class="node"></div></div>
+        <div class="expand-panel">
+          <div class="expand-shell">
+            <p class="expand-label">Milestone walkthrough</p>
+            <h3 class="expand-title">Attend first class and solve problems with a 24x7 AI companion to help you</h3>
+            <div class="expand-gallery">
+              <div class="placeholder-image image-reference">
+                <img class="roadmap-image" src="assets/roadmap/3rd-milestone.png" alt="DSA session, recording, and flashcard practice experience" />
+                <span class="image-tag">Class experience preview</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="step" data-time="Month 3" data-title="Placement assistance begins" data-script="This is where placement assistance begins. Once you clear the skill certification rounds at the end of the core modules, you can start applying to jobs from more than nine hundred hiring partners." tabindex="0" role="button" aria-expanded="false" data-expandable="true">
+        <div class="center"><div class="node"></div></div>
+        <div class="content right">
+          <div class="time">Month 3</div>
+          <h2 class="title">Placement assistance begins</h2>
+          <p class="one-liner">Clear skill certification rounds at end of core modules and start applying to jobs from over 900+ hiring partners.</p>
+        </div>
+        <div class="expand-panel">
+          <div class="expand-shell">
+            <p class="expand-label">Milestone walkthrough</p>
+            <h3 class="expand-title">Get skills, build your resume and apply to jobs on Careerhub</h3>
+            <div class="expand-gallery">
+              <div class="placeholder-image image-reference">
+                <img class="roadmap-image" src="assets/roadmap/4th-milestone.png" alt="Careers Hub and active job application view" />
+                <span class="image-tag">Careers Hub preview</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="step no-expand" data-time="Month 7" data-title="Choose a specialisation track" data-script="At month seven, the journey branches. You now choose the specialization track that best matches the kind of engineer you want to become next.">
+        <div class="content left">
+          <div class="time">Month 7</div>
+          <h2 class="title">Choose a specialisation track</h2>
+          <p class="one-liner">Choose between these tracks:</p>
+          <div class="chips">
+            <div class="chip">Backend</div>
+            <div class="chip">Fullstack</div>
+            <div class="chip">Data engineering</div>
+          </div>
+        </div>
+        <div class="center"><div class="node active"></div></div>
+      </article>
+
+      <article class="step no-expand" data-time="Month 10" data-title="Real world portfolio project" data-script="This is where your learning becomes practical proof. The capstone helps you apply what you have learned in a real project environment.">
+        <div class="content right">
+          <div class="time">Month 10</div>
+          <h2 class="title">Real world portfolio project</h2>
+          <p class="one-liner">Use learnings for a practical project.</p>
+          <div class="chips">
+            <div class="chip">AI literacy</div>
+            <div class="chip">HLD</div>
+            <div class="chip">LLD</div>
+            <div class="chip">Front end</div>
+          </div>
+        </div>
+        <div class="center"><div class="node"></div></div>
+      </article>
+
+      <article class="step no-expand" data-time="Month 10" data-title="Congrats, now you are industry ready!" data-script="This is the point where your certifications, project depth, and specialization work come together. You are now ready to apply across a much wider set of modern engineering roles.">
+        <div class="content left">
+          <div class="time">Month 10</div>
+          <h2 class="title">Congrats, now you are industry ready!</h2>
+          <p class="one-liner">Clear skill certifications and be eligible to apply for all the roles.</p>
+          <div class="chips">
+            <div class="chip ai-role">AI infused UI engineer</div>
+            <div class="chip ai-role">AI augmented SWE</div>
+            <div class="chip ai-role">Multi-modal AI engineer</div>
+            <div class="chip ai-role">Agent engineer</div>
+            <div class="chip ai-role">AI architect</div>
+            <div class="chip">Forward deployed engineer</div>
+            <div class="chip">Senior SWE</div>
+          </div>
+        </div>
+        <div class="center"><div class="node"></div></div>
+      </article>
+
+      <article class="step no-expand" data-time="Month 11" data-title="Additional AI electives" data-script="From here, you can go deeper into AI-focused electives that build on top of your core software engineering base.">
+        <div class="center"><div class="node"></div></div>
+        <div class="content right">
+          <div class="time">Month 11</div>
+          <h2 class="title">Additional AI electives</h2>
+          <p class="one-liner">Eligible for GenAI, Product management with AI etc.</p>
+          <div class="chips">
+            <div class="chip ai-role">GenAI</div>
+            <div class="chip ai-role">Product management with AI</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="step no-expand" data-time="Beyond year 1" data-title="Your Life long learning partner" data-script="This road does not end here. You keep lifetime access to live and existing course material so you can continue learning as technology keeps changing.">
+        <div class="content left">
+          <div class="time">Beyond year 1</div>
+          <h2 class="title">Your Life long learning partner</h2>
+          <p class="one-liner">You will have lifetime access to live and existing course material where we are keeping you updated with latest advancements in tech, so your learning continues.</p>
+        </div>
+        <div class="center"><div class="node active"></div></div>
+      </article>
+      </section>
+
+      <aside class="narrator">
+        <div class="narrator-top">
+          <div class="avatar" aria-hidden="true">
+            <svg class="avatar-portrait" viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#7c74ff"/>
+                  <stop offset="100%" stop-color="#d39eff"/>
+                </linearGradient>
+                <linearGradient id="shirtGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#212531"/>
+                  <stop offset="100%" stop-color="#101217"/>
+                </linearGradient>
+              </defs>
+              <circle cx="44" cy="44" r="44" fill="url(#bgGrad)" opacity="0.18"/>
+              <circle cx="44" cy="44" r="30" fill="#241f47" opacity="0.58"/>
+              <ellipse cx="44" cy="66" rx="19" ry="15" fill="url(#shirtGrad)"/>
+              <ellipse cx="44" cy="38" rx="13.5" ry="16" fill="#efc3a8"/>
+              <path d="M30 38c0-10 6-19 15-19 8 0 14 6 15 16-3-2-5-4-7-7-2 3-6 5-10 6-4 2-8 3-13 4z" fill="#2c201b"/>
+              <path d="M31 41c1-3 3-5 5-7 5-1 9-3 13-7 2 4 5 7 9 9 0 7-2 12-5 16-3 4-7 6-10 6-4 0-8-2-10-6-3-4-5-8-5-11z" fill="#efc3a8"/>
+              <circle cx="39" cy="40" r="1.3" fill="#2a1e1b"/>
+              <circle cx="49" cy="40" r="1.3" fill="#2a1e1b"/>
+              <path d="M40 48c2 2 6 2 8 0" stroke="#a75e58" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="narrator-actions">
+          <a class="micro-button" href="#timeline-start"><i class="ph ph-arrow-clockwise"></i> Listen again</a>
+          <button class="micro-button muted" type="button" id="mute-toggle"><i class="ph ph-speaker-slash"></i> Mute</button>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <div class="floating-actions">
+    <a class="button" href="report.html">Start this journey <i class="ph ph-arrow-right"></i></a>
+    <a class="button-secondary" href="mailto:?subject=My%2012-Month%20Scaler%20Roadmap&body=Hi,%0D%0A%0D%0AHere%20is%20my%20Scaler%2012-month%20roadmap.%0D%0A">Email this to me</a>
+  </div>
+  <script>
+    const steps = Array.from(document.querySelectorAll(".step"));
+    const muteToggle = document.getElementById("mute-toggle");
+
+    const setActiveStep = (step) => {
+      if (!step) return;
+
+      steps.forEach((item) => {
+        const node = item.querySelector(".node");
+        if (node) node.classList.remove("active");
+      });
+
+      const activeNode = step.querySelector(".node");
+      if (activeNode) activeNode.classList.add("active");
+    };
+
+    const expandableSteps = steps.filter((step) => step.dataset.expandable === "true");
+
+    const setExpandedStep = (targetStep) => {
+      steps.forEach((step) => {
+        const isTarget = step === targetStep;
+        const shouldOpen = isTarget ? !step.classList.contains("is-open") : false;
+        step.classList.toggle("is-open", isTarget && shouldOpen);
+        if (step.dataset.expandable === "true") {
+          step.setAttribute("aria-expanded", String(isTarget && shouldOpen));
+        }
+      });
+
+      if (targetStep && targetStep.classList.contains("is-open")) {
+        setActiveStep(targetStep);
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible.length) {
+          setActiveStep(visible[0].target);
+        }
+      },
+      {
+        rootMargin: "-20% 0px -45% 0px",
+        threshold: [0.25, 0.5, 0.75],
+      }
+    );
+
+    steps.forEach((step) => observer.observe(step));
+    setActiveStep(steps[0]);
+
+    expandableSteps.forEach((step) => {
+      step.addEventListener("click", (event) => {
+        if (event.target.closest("a, button")) return;
+        setExpandedStep(step);
+      });
+
+      step.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        setExpandedStep(step);
+      });
+    });
+
+    muteToggle?.addEventListener("click", () => {
+      muteToggle.classList.toggle("muted");
+      muteToggle.innerHTML = muteToggle.classList.contains("muted")
+        ? '<i class="ph ph-speaker-slash"></i> Mute'
+        : '<i class="ph ph-speaker-high"></i> Unmute';
+    });
+  </script>
+</body>
+</html>

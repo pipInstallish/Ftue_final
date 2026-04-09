@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaler FTUE Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
+  />
+  <style>
+    :root {
+      --font: "Plus Jakarta Sans", sans-serif;
+      --font-display: "Source Serif 4", serif;
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-50: #f8f8f8;
+      --gray-100: #efefef;
+      --gray-200: #dddddd;
+      --gray-300: #cfcfcf;
+      --gray-500: #767676;
+      --gray-700: #373737;
+      --gray-900: #151515;
+      --cta-black: #050505;
+      --border: #d4d4d4;
+      --border-strong: #1a1a1a;
+      --max: 1360px;
+    }
+
+    * {
+      box-sizing: border-box;
+      border-radius: 0 !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--gray-50);
+      color: var(--black);
+      font-family: var(--font);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+      color: inherit;
+    }
+
+    .screen {
+      display: none;
+      min-height: 100vh;
+      padding: 24px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(245, 245, 245, 0.98)),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0,
+          transparent 79px,
+          rgba(0, 0, 0, 0.025) 79px,
+          rgba(0, 0, 0, 0.025) 80px
+        );
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .screen.default-screen {
+      display: block;
+    }
+
+    .frame {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      min-height: calc(100vh - 48px);
+      border: 1px solid var(--border-strong);
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 360px 1fr;
+    }
+
+    .welcome-frame {
+      grid-template-columns: 1fr;
+    }
+
+    .form-frame {
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--border-strong);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.03), transparent 40%),
+        var(--white);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--border-strong);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gray-500);
+    }
+
+    .sidebar-title {
+      margin: 18px 0 10px;
+      font-family: var(--font-display);
+      font-size: 48px;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .sidebar-copy,
+    .sidebar-note,
+    .helper {
+      color: var(--gray-700);
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    .sidebar-graphic {
+      margin-top: 28px;
+      border: 1px solid var(--border-strong);
+      aspect-ratio: 3 / 4;
+      background:
+        linear-gradient(135deg, rgba(0, 0, 0, 0.92), rgba(48, 48, 48, 0.82)),
+        var(--gray-900);
+      color: var(--white);
+      display: grid;
+      place-items: end start;
+      padding: 22px;
+    }
+
+    .sidebar-graphic span {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-note {
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+    }
+
+    .content {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .welcome-content {
+      padding: 34px 44px 52px;
+    }
+
+    .welcome-content .topbar {
+      margin-bottom: 48px;
+    }
+
+    .form-content {
+      padding: 28px 36px 40px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 18px;
+      margin-bottom: 28px;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .back-link,
+    .ghost-chip {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border-strong);
+      display: grid;
+      place-items: center;
+      background: var(--white);
+    }
+
+    .step-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .step-overline {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+
+    .step-title {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .progress {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .progress-bar {
+      width: 180px;
+      height: 8px;
+      background: var(--gray-100);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .progress-bar span {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: var(--progress, 12%);
+      background: var(--cta-black);
+    }
+
+    .progress-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-grid,
+    .two-col,
+    .split-cards {
+      display: grid;
+      gap: 24px;
+    }
+
+    .hero-grid {
+      grid-template-columns: 1.2fr 0.9fr;
+      flex: 1;
+      align-items: center;
+    }
+
+    .welcome-stage .hero-grid {
+      grid-template-columns: 1fr;
+      max-width: 920px;
+      margin: 0 auto;
+      min-height: calc(100vh - 240px);
+      align-content: center;
+      align-items: start;
+    }
+
+    .welcome-stage .hero-copy {
+      max-width: 620px;
+    }
+
+    .quote-block {
+      margin-top: 34px;
+      padding-top: 22px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      gap: 16px;
+      max-width: 720px;
+    }
+
+    .quote-text {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3.2vw, 40px);
+      line-height: 1.16;
+      letter-spacing: -0.04em;
+    }
+
+    .quote-meta {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      color: var(--gray-700);
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .signature-line {
+      width: 96px;
+      height: 1px;
+      background: var(--border-strong);
+    }
+
+    .hero-title,
+    .section-title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(42px, 5vw, 78px);
+      line-height: 0.93;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-copy,
+    .section-subtitle {
+      max-width: 720px;
+      margin: 18px 0 0;
+      color: var(--gray-700);
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .hero-points,
+    .focus-list,
+    .check-list {
+      margin: 26px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 14px;
+    }
+
+    .hero-points li,
+    .focus-list li,
+    .check-list li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: var(--gray-700);
+      line-height: 1.7;
+    }
+
+    .hero-panel,
+    .card,
+    .form-shell,
+    .choice-card,
+    .report-preview {
+      border: 1px solid var(--border-strong);
+      background: var(--white);
+    }
+
+    .hero-panel {
+      padding: 28px;
+    }
+
+    .panel-stat {
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+      margin-top: 22px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .panel-stat strong {
+      font-size: 36px;
+      font-family: var(--font-display);
+      letter-spacing: -0.04em;
+    }
+
+    .section-head {
+      margin-bottom: 28px;
+    }
+
+    .section-head .section-title {
+      font-size: clamp(32px, 4vw, 58px);
+    }
+
+    .two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .form-shell {
+      padding: 22px;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .narrative-head {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 28px;
+      max-width: 980px;
+    }
+
+    .narrative-head .section-title {
+      font-size: clamp(30px, 4vw, 50px);
+    }
+
+    .narrative-head .section-subtitle {
+      margin-top: 0;
+      max-width: 700px;
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    .field {
+      display: grid;
+      gap: 10px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      min-height: 54px;
+      border: 1px solid var(--border-strong);
+      background: var(--white);
+      padding: 14px 16px;
+      outline: none;
+    }
+
+    .field textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .chip-set {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .chip {
+      padding: 12px 14px;
+      border: 1px solid var(--border-strong);
+      background: var(--white);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .chip.active,
+    .choice-card.active {
+      background: var(--cta-black);
+      color: var(--white);
+    }
+
+    .chip.muted {
+      border-color: var(--border);
+      color: var(--gray-500);
+      background: var(--gray-50);
+    }
+
+    .mission-shell {
+      display: grid;
+      gap: 24px;
+    }
+
+    .mission-step {
+      display: grid;
+      gap: 20px;
+    }
+
+    .goal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .goal-chip-btn {
+      border: 1px solid var(--border-strong);
+      background: var(--white);
+      padding: 18px 18px 18px 46px;
+      text-align: left;
+      position: relative;
+      min-height: 92px;
+      font: inherit;
+      cursor: pointer;
+      transition:
+        background 180ms ease,
+        color 180ms ease,
+        transform 180ms ease,
+        border-color 180ms ease;
+    }
+
+    .goal-chip-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .goal-chip-btn::before {
+      content: "+";
+      position: absolute;
+      left: 16px;
+      top: 18px;
+      font-weight: 800;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .goal-chip-btn strong {
+      display: block;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    .goal-chip-btn.selected {
+      background: var(--cta-black);
+      color: var(--white);
+    }
+
+    .goal-chip-btn.selected::before {
+      content: "✓";
+    }
+
+    .limit-note,
+    .helper-row,
+    .character-count {
+      color: var(--gray-500);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .helper-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+
+
+    .choice-card {
+      padding: 20px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .choice-card strong {
+      font-size: 18px;
+    }
+
+    .choice-card p {
+      margin: 0;
+      color: var(--gray-700);
+      line-height: 1.7;
+    }
+
+    .choice-card.active p {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .split-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .card.tight-card {
+      gap: 12px;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--gray-700);
+      line-height: 1.7;
+    }
+
+    .cta-row {
+      margin-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .button,
+    .button-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 56px;
+      padding: 0 22px;
+      border: 1px solid var(--border-strong);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .button {
+      background: var(--cta-black);
+      color: var(--white);
+    }
+
+    .button-secondary {
+      background: var(--white);
+    }
+
+    .status-line {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: 14px;
+      color: var(--gray-700);
+    }
+
+    .report-preview {
+      padding: 28px;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.02), transparent 42%),
+        var(--white);
+    }
+
+    .letter-banner {
+      margin-top: 22px;
+      padding: 20px 22px;
+      border: 1px solid var(--border-strong);
+      background: var(--cta-black);
+      color: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .letter-banner strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .letter-banner span {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .report-preview h3 {
+      margin: 12px 0 10px;
+      font-family: var(--font-display);
+      font-size: 34px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .report-preview p {
+      margin: 0 0 18px;
+      color: var(--gray-700);
+      line-height: 1.8;
+    }
+
+    .mini-letter {
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .mini-letter p {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 1100px) {
+      .frame,
+      .hero-grid,
+      .two-col,
+      .split-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--border-strong);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .screen,
+      .content,
+      .sidebar {
+        padding: 18px;
+      }
+
+      .field-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .goal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar,
+      .cta-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .progress {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .progress-bar {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section id="screen-1" class="screen default-screen">
+    <div class="frame welcome-frame">
+      <main class="content welcome-content">
+        <div class="topbar">
+          <div class="topbar-left">
+            <div class="ghost-chip"><i class="ph ph-squares-four"></i></div>
+            <div class="step-meta">
+              <div class="step-overline">Scaler FTUE v0</div>
+              <div class="step-title">Founder Welcome</div>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" style="--progress: 8%;"><span></span></div>
+            <div class="progress-label">Intro</div>
+          </div>
+        </div>
+        <div class="hero-grid welcome-stage">
+          <div>
+            <div class="eyebrow">A founder welcome</div>
+            <h2 class="hero-title">The most important skill of this decade is already here. Let's make sure you're ready for it.</h2>
+            <p class="hero-copy">
+              We built Scaler because the gap between where professionals are and where AI is taking
+              every industry was becoming unbridgeable without the right training. This program
+              doesn't just teach you AI. It teaches you how to think, build, and lead in a world
+              shaped by it.
+            </p>
+            <div class="quote-block">
+              <p class="quote-text">
+                “1% better every day.”
+              </p>
+              <div class="quote-meta">
+                <div class="signature-line"></div>
+                Founding team, Scaler
+              </div>
+            </div>
+            <div class="cta-row">
+              <div class="status-line"><i class="ph ph-lock-key"></i> A short intake before your dashboard opens</div>
+              <a class="button" href="#screen-2">Complete onboarding <i class="ph ph-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <section id="screen-2" class="screen">
+    <div class="frame form-frame">
+      <main class="content form-content">
+        <div class="topbar">
+          <div class="topbar-left">
+            <a class="back-link" href="#screen-1"><i class="ph ph-arrow-left"></i></a>
+            <div class="step-meta">
+              <div class="step-overline">Step 1</div>
+              <div class="step-title">Your profile details</div>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" style="--progress: 20%;"><span></span></div>
+            <div class="progress-label">01 / 05</div>
+          </div>
+        </div>
+        <div class="narrative-head">
+          <div class="eyebrow">Profile details</div>
+          <h2 class="section-title">Let's start with the basics</h2>
+          <p class="section-subtitle">
+            This information is used for your enrolment record, certification, and support. We keep
+            it secure.
+          </p>
+        </div>
+        <div class="form-shell">
+          <div class="field-grid">
+            <div class="field">
+              <label>Title</label>
+              <select><option>Mr.</option><option>Ms.</option><option>Mrs.</option></select>
+            </div>
+            <div class="field">
+              <label>Full name</label>
+              <input type="text" value="Ish Gautam" />
+            </div>
+            <div class="field">
+              <label>Date of birth</label>
+              <input type="date" value="1999-10-10" />
+            </div>
+            <div class="field">
+              <label>Area pincode</label>
+              <input type="text" value="560034" />
+            </div>
+            <div class="field">
+              <label>Guardian / secondary contact name</label>
+              <input type="text" value="Rahul Gautam" />
+            </div>
+            <div class="field">
+              <label>Relationship</label>
+              <select><option>Parent</option><option>Sibling</option><option>Spouse</option></select>
+            </div>
+            <div class="field full">
+              <label>Guardian / secondary contact number</label>
+              <input type="tel" value="+91 98XXXXXX90" />
+            </div>
+          </div>
+          <div class="cta-row">
+            <div class="status-line"><i class="ph ph-shield-check"></i> Required for learner record integrity</div>
+            <a class="button" href="#screen-3">Continue to background <i class="ph ph-arrow-right"></i></a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <section id="screen-3" class="screen">
+    <div class="frame form-frame">
+      <main class="content form-content">
+        <div class="topbar">
+          <div class="topbar-left">
+            <a class="back-link" href="#screen-2"><i class="ph ph-arrow-left"></i></a>
+            <div class="step-meta">
+              <div class="step-overline">Step 2</div>
+              <div class="step-title">Work and education</div>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" style="--progress: 40%;"><span></span></div>
+            <div class="progress-label">02 / 05</div>
+          </div>
+        </div>
+        <div class="narrative-head">
+          <div class="eyebrow">Work and education</div>
+          <h2 class="section-title">Tell us where you are today</h2>
+          <p class="section-subtitle">
+            Your background helps us understand your starting point and how to shape the journey
+            ahead more intelligently.
+          </p>
+        </div>
+        <div class="form-shell">
+          <div class="field-grid">
+            <div class="field full">
+              <label>LinkedIn profile</label>
+              <input type="url" value="https://linkedin.com/in/sample-profile" />
+            </div>
+            <div class="field full">
+              <label>Current job role</label>
+              <select>
+                <option>Software Engineer · Service Company</option>
+                <option>Software Engineer · Product Company</option>
+                <option>Data Scientist / ML Engineer</option>
+                <option>AI / ML Engineer · LLMs / RAG / Agents</option>
+                <option>DevOps / Cloud / Infra Engineer</option>
+                <option>QA / Support / Other Tech Role</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Total experience (full time)</label>
+              <select>
+                <option>Fresher</option>
+                <option>0-2 years</option>
+                <option>2-3 years</option>
+                <option>3-5 years</option>
+                <option>5-8 years</option>
+                <option>8+ years</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>What has majority of your experience been?</label>
+              <select>
+                <option>Tech</option>
+                <option>Non Tech</option>
+                <option>Fresher</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label>Current CTC</label>
+              <input type="number" min="0" step="0.1" value="12" placeholder="Enter amount in LPA. Use 0 if fresher." />
+            </div>
+          </div>
+          <div class="cta-row">
+            <div class="status-line">
+              <i class="ph ph-path"></i> We will use this to personalize the path that follows
+            </div>
+            <a class="button" href="#screen-t-1">Continue to skills and AI <i class="ph ph-arrow-right"></i></a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <section id="screen-t-1" class="screen">
+    <div class="frame form-frame">
+      <main class="content form-content">
+        <div class="topbar">
+          <div class="topbar-left">
+            <a class="back-link" href="#screen-3"><i class="ph ph-arrow-left"></i></a>
+            <div class="step-meta">
+              <div class="step-overline">Step 3</div>
+              <div class="step-title">Programming readiness</div>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" style="--progress: 50%;"><span></span></div>
+            <div class="progress-label">03 / 06</div>
+          </div>
+        </div>
+        <div class="narrative-head">
+          <div class="eyebrow">Programming readiness</div>
+          <h2 class="section-title">Fundamentals are still what separates candidates in the final rounds</h2>
+          <p class="section-subtitle">
+            Even in 2026, system design and problem solving come up in every senior interview. Be
+            honest — this calibrates your report.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Technical proficiency</h3>
+          <div class="field-grid">
+            <div class="field full">
+              <label>How much have you been practicing coding problems in the last 3 months?</label>
+              <select>
+                <option>Very active — 100+ problems</option>
+                <option>Moderately active — 50-100 problems</option>
+                <option>Somewhat active — 10-50 problems</option>
+                <option>Not practicing right now</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label>How comfortable are you with system design?</label>
+              <select>
+                <option>I've led design discussions at work</option>
+                <option>I've participated in them</option>
+                <option>Self-learning — done courses or reading</option>
+                <option>Haven't started yet</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="cta-row">
+          <div class="status-line"><i class="ph ph-check-square-offset"></i> This helps us calibrate your starting point</div>
+          <a class="button" href="#screen-t-2b">Continue to AI readiness <i class="ph ph-arrow-right"></i></a>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <section id="screen-t-2b" class="screen">
+    <div class="frame form-frame">
+      <main class="content form-content">
+        <div class="topbar">
+          <div class="topbar-left">
+            <a class="back-link" href="#screen-t-1"><i class="ph ph-arrow-left"></i></a>
+            <div class="step-meta">
+              <div class="step-overline">Step 4</div>
+              <div class="step-title">Experience with AI</div>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" style="--progress: 75%;"><span></span></div>
+            <div class="progress-label">04 / 05</div>
+          </div>
+        </div>
+        <div class="narrative-head">
+          <div class="eyebrow">Experience with AI</div>
+          <h2 class="section-title">Experience with AI</h2>
+          <p class="section-subtitle">
+            This helps us understand where AI is already helping you and where it still creates friction.
+          </p>
+        </div>
+        <div class="split-cards">
+          <div class="card">
+            <h3>Use cases</h3>
+            <div class="field">
+              <label>What do you use AI for most often?</label>
+              <div class="chip-set">
+                <div class="chip active">Writing code</div>
+                <div class="chip active">Debugging</div>
+                <div class="chip">Refactoring</div>
+                <div class="chip">Identifying solutions</div>
+                <div class="chip">Identifying mistakes in my approach</div>
+                <div class="chip">Practice</div>
+                <div class="chip">Interview preparation</div>
+                <div class="chip">Any other</div>
+              </div>
+              <input type="text" placeholder="Add any other use case" />
+            </div>
+          </div>
+          <div class="card">
+            <h3>Issues with AI</h3>
+            <div class="field">
+              <label>What is the biggest issue you face with AI today?</label>
+              <div class="chip-set">
+                <div class="chip">Outputs are often wrong</div>
+                <div class="chip active">Debugging AI-generated code takes too long</div>
+                <div class="chip">I am not sure when to use AI vs do it myself</div>
+                <div class="chip">I worry about overdependence</div>
+                <div class="chip">Any other</div>
+              </div>
+              <input type="text" placeholder="Add any other issue" />
+            </div>
+          </div>
+        </div>
+        <div class="cta-row">
+          <div class="status-line"><i class="ph ph-cpu"></i> This helps us personalize the guidance that follows</div>
+          <a class="button" href="#screen-t-3">Continue to goals and motivation <i class="ph ph-arrow-right"></i></a>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <section id="screen-t-3" class="screen">
+    <div class="frame form-frame">
+      <main class="content form-content">
+        <div class="topbar">
+          <div class="topbar-left">
+            <a class="back-link" href="#screen-t-2b"><i class="ph ph-arrow-left"></i></a>
+            <div class="step-meta">
+            <div class="step-overline">Final</div>
+              <div class="step-title">Mission and onboarding letter</div>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" style="--progress: 100%;"><span></span></div>
+            <div class="progress-label">05 / 05</div>
+          </div>
+        </div>
+          <div class="narrative-head">
+          <div class="eyebrow">Mission</div>
+          <h2 class="section-title">What would make this program a turning point in your career?</h2>
+          <p class="section-subtitle">
+            Your answer will shape your onboarding letter and how we guide you.
+          </p>
+        </div>
+        <div class="form-shell mission-shell mission-builder" data-screen="tech-mission">
+          <div class="mission-step">
+            <div class="field">
+              <label>Choose up to 5 outcomes that matter most to you</label>
+              <div class="goal-grid">
+                <button type="button" class="goal-chip-btn selected" data-goal="Crack SDE interviews at top product companies">
+                  <strong>Crack interviews at top product companies</strong>
+                </button>
+                <button type="button" class="goal-chip-btn selected" data-goal="Learn to use AI to code, debug, and build faster">
+                  <strong>Learn to use AI to code, debug, and build faster</strong>
+                </button>
+                <button type="button" class="goal-chip-btn" data-goal="Increase my salary by 2x+">
+                  <strong>Increase my salary by 2x+</strong>
+                </button>
+                <button type="button" class="goal-chip-btn" data-goal="Stay relevant in tech by learning to use AI">
+                  <strong>Stay relevant in tech by learning to use AI</strong>
+                </button>
+                <button type="button" class="goal-chip-btn" data-goal="Become a better problem solver with AI">
+                  <strong>Become a better problem solver with AI</strong>
+                </button>
+                <button type="button" class="goal-chip-btn selected" data-goal="Learn to use AI effectively without becoming dependent on it">
+                  <strong>Learn to use AI effectively without becoming dependent on it</strong>
+                </button>
+                <button type="button" class="goal-chip-btn" data-goal="Improve my productivity as an engineer using AI">
+                  <strong>Improve my productivity as an engineer using AI</strong>
+                </button>
+                <button type="button" class="goal-chip-btn" data-goal="Transition into high-demand, new AI-enabled engineering roles">
+                  <strong>Transition into high-demand, new AI-enabled engineering roles</strong>
+                </button>
+              </div>
+              <div class="limit-note">Pick the 4-5 outcomes that matter most so we can personalize your onboarding letter.</div>
+            </div>
+          </div>
+
+          <div class="mission-step">
+            <div class="field">
+              <label>In one line, what would make this program successful for you?</label>
+              <textarea
+                class="mission-input"
+                maxlength="200"
+                placeholder="I want to switch into a backend role, crack interviews, and learn to use AI effectively without relying on it."
+              >I want to switch into a backend role, crack interviews, and learn to use AI effectively without relying on it.</textarea>
+              <div class="helper-row">
+                <span class="character-count">0 / 200</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cta-row">
+            <div class="status-line"><i class="ph ph-sparkle"></i> Your onboarding letter is shaped from the intent you leave here with</div>
+            <a class="button" href="onboarding_letter.html">View onboarding letter <i class="ph ph-arrow-right"></i></a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <section id="screen-nt-1" class="screen">
+    <div class="frame">
+      <aside class="sidebar">
+        <div>
+          <div class="brand">
+            <div class="brand-mark"><i class="ph ph-compass-tool"></i></div>
+            Non-Tech Track
+          </div>
+          <div class="eyebrow" style="margin-top: 22px;">Step 3 · Technical Baseline</div>
+          <h1 class="sidebar-title">Even non-tech learners need a baseline, not a pass/fail label.</h1>
+          <p class="sidebar-copy">
+            We still capture programming familiarity because it affects how the learner’s path and
+            AI guidance should be framed. The language is lighter, but the signal still matters.
+          </p>
+        </div>
+        <p class="sidebar-note">
+          This allows us to tell the difference between someone totally new to code and someone
+          adjacent to technical work who needs a more structured transition.
+        </p>
+      </aside>
+      <main class="content">
+        <div class="topbar">
+          <div class="topbar-left">
+            <a class="back-link" href="#screen-3"><i class="ph ph-arrow-left"></i></a>
+            <div class="step-meta">
+              <div class="step-overline">Step 3</div>
+              <div class="step-title">Technical baseline</div>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" style="--progress: 60%;"><span></span></div>
+            <div class="progress-label">03 / 05</div>
+          </div>
+        </div>
+        <div class="split-cards">
+          <div class="card">
+            <h3>Current familiarity with technical concepts</h3>
+            <div class="field-grid">
+              <div class="field">
+                <label>Programming familiarity</label>
+                <select><option>Beginner</option><option>Basic working knowledge</option><option>Comfortable</option></select>
+              </div>
+              <div class="field">
+                <label>DSA familiarity</label>
+                <select><option>Beginner</option><option>Basic working knowledge</option><option>Comfortable</option></select>
+              </div>
+              <div class="field full">
+                <label>SQL / databases familiarity</label>
+                <select><option>Beginner</option><option>Basic working knowledge</option><option>Comfortable</option></select>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>How do you solve technical tasks today?</h3>
+            <p>Even when the learner is not currently technical, this tells us how much scaffolding the journey should provide.</p>
+            <div class="chip-set">
+              <div class="chip">I solve mostly on my own</div>
+              <div class="chip">I rely heavily on docs or search</div>
+              <div class="chip active">I often use AI support</div>
+              <div class="chip">I need significant help</div>
+            </div>
+          </div>
+        </div>
+        <div class="cta-row">
+          <div class="status-line"><i class="ph ph-chart-line"></i> Baseline captured without overloading the learner</div>
+          <a class="button" href="#screen-nt-2">Continue to AI readiness <i class="ph ph-arrow-right"></i></a>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <section id="screen-nt-2" class="screen">
+    <div class="frame">
+      <aside class="sidebar">
+        <div>
+          <div class="brand">
+            <div class="brand-mark"><i class="ph ph-sparkle"></i></div>
+            Non-Tech Track
+          </div>
+          <div class="eyebrow" style="margin-top: 22px;">Step 4 · AI Readiness</div>
+          <h1 class="sidebar-title">For non-tech learners, AI questions should focus on practice, not jargon.</h1>
+          <p class="sidebar-copy">
+            We care about whether the learner has real hands-on usage, whether they have tried
+            building anything, and what stops them from going deeper. We do not need them to speak
+            like engineers to get a useful signal.
+          </p>
+        </div>
+        <p class="sidebar-note">
+          Prompting, workflow thinking, and simple vibe-coded experiments are meaningful signals
+          here and should be treated as such.
+        </p>
+      </aside>
+      <main class="content">
+        <div class="topbar">
+          <div class="topbar-left">
+            <a class="back-link" href="#screen-nt-1"><i class="ph ph-arrow-left"></i></a>
+            <div class="step-meta">
+              <div class="step-overline">Step 4</div>
+              <div class="step-title">AI readiness for non-tech learners</div>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" style="--progress: 80%;"><span></span></div>
+            <div class="progress-label">04 / 05</div>
+          </div>
+        </div>
+        <div class="split-cards">
+          <div class="card">
+            <h3>Familiarity and tool exposure</h3>
+            <div class="field-grid">
+              <div class="field full">
+                <label>How familiar are you with AI tools today?</label>
+                <select><option>I use them sometimes for work or learning</option><option>I have tried them casually</option><option>I have not really used AI tools</option></select>
+              </div>
+            </div>
+            <div class="field">
+              <label>Which AI tools are you aware of or have tried?</label>
+              <div class="chip-set">
+                <div class="chip active">ChatGPT</div>
+                <div class="chip">Claude</div>
+                <div class="chip active">Perplexity</div>
+                <div class="chip">Canva AI</div>
+                <div class="chip">No-code AI app builders</div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Practice and blockers</h3>
+            <div class="field">
+              <label>What have you used AI for so far?</label>
+              <div class="chip-set">
+                <div class="chip active">Research</div>
+                <div class="chip active">Writing</div>
+                <div class="chip">Daily repetitive tasks</div>
+                <div class="chip">Workflow automation</div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Have you created anything with AI yet?</label>
+              <div class="chip-set">
+                <div class="chip">No, not yet</div>
+                <div class="chip">I have only experimented a little</div>
+                <div class="chip active">I have tried simple no-code or vibe-coded projects</div>
+                <div class="chip">I have used AI in meaningful work</div>
+              </div>
+            </div>
+            <div class="field">
+              <label>What is the biggest blocker for you today?</label>
+              <div class="chip-set">
+                <div class="chip">I do not know where to start</div>
+                <div class="chip active">I do not know how to turn ideas into workflows</div>
+                <div class="chip">I am not technical enough</div>
+                <div class="chip">The outputs feel unreliable</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cta-row">
+          <div class="status-line"><i class="ph ph-target"></i> Practical AI maturity signal captured</div>
+          <a class="button" href="#screen-nt-3">Continue to goals and motivation <i class="ph ph-arrow-right"></i></a>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <section id="screen-nt-3" class="screen">
+    <div class="frame">
+      <aside class="sidebar">
+        <div>
+          <div class="brand">
+            <div class="brand-mark"><i class="ph ph-rocket-launch"></i></div>
+            Non-Tech Track
+          </div>
+          <div class="eyebrow" style="margin-top: 22px;">Steps 5–7 · Mission, Motivation, Letter</div>
+          <h1 class="sidebar-title">The finish should feel directional, not generic.</h1>
+          <p class="sidebar-copy">
+            Once we know the learner’s goal and what drew them to Scaler, the completion layer can
+            speak to them like a person entering a transition, not like a lead being processed.
+          </p>
+        </div>
+        <p class="sidebar-note">
+          The same letter system works here too, but the AI framing shifts toward workflow fluency,
+          confidence, and practical capability.
+        </p>
+      </aside>
+      <main class="content">
+        <div class="topbar">
+          <div class="topbar-left">
+            <a class="back-link" href="#screen-nt-2"><i class="ph ph-arrow-left"></i></a>
+            <div class="step-meta">
+              <div class="step-overline">Final</div>
+              <div class="step-title">Mission, motivation, completion</div>
+            </div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" style="--progress: 100%;"><span></span></div>
+            <div class="progress-label">05 / 05</div>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="form-shell">
+            <div class="field">
+              <label>What is your goal entering this program?</label>
+              <div class="chip-set">
+                <div class="chip">Switch jobs</div>
+                <div class="chip">Grow in current role</div>
+                <div class="chip active">Move into tech</div>
+                <div class="chip active">Gain confidence</div>
+                <div class="chip">Build stronger projects</div>
+              </div>
+            </div>
+            <div class="field" style="margin-top: 20px;">
+              <label>In one line, what would make this program successful for you?</label>
+              <textarea>I want to become confident enough to use AI beyond simple prompts and build a stronger path into tech work.</textarea>
+            </div>
+            <div class="field" style="margin-top: 20px;">
+              <label>What got you excited about Scaler?</label>
+              <div class="chip-set">
+                <div class="chip active">Curriculum</div>
+                <div class="chip active">Success of alumni</div>
+                <div class="chip">Instructor</div>
+                <div class="chip">Placement</div>
+              </div>
+            </div>
+          </div>
+          <div class="report-preview">
+            <div class="eyebrow">Completion experience</div>
+            <h3>A letter for your journey ahead</h3>
+            <p>
+              The system speaks differently here because the learner is earlier in the journey and
+              needs confidence plus practical direction, not engineering-centric jargon.
+            </p>
+            <div class="mini-letter">
+              <p><strong>Hi Ish,</strong></p>
+              <p>
+                You are entering this program at a moment where AI is opening doors for people who
+                know how to think clearly, learn quickly, and turn tools into useful workflows.
+              </p>
+              <p>
+                The next few months will be about moving from curiosity to capability. That means
+                building enough technical comfort to stay grounded, while also learning how to use
+                AI in a way that creates real outcomes instead of only one-off experiments.
+              </p>
+              <p>
+                What we will expect from you is steady practice, visible output, and the willingness
+                to stay with the process even before confidence catches up.
+              </p>
+            </div>
+            <div class="footer-links">
+              <a class="button" href="report.html">Open personalized report <i class="ph ph-arrow-right"></i></a>
+              <a class="button-secondary" href="#screen-1">Restart flow</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+<script>
+  (function () {
+    const screens = Array.from(document.querySelectorAll(".screen"));
+    const MAX_GOALS = 5;
+
+    function showScreenFromHash() {
+      const hash = window.location.hash;
+      const target = hash ? document.querySelector(hash) : null;
+
+      screens.forEach((screen) => {
+        screen.classList.remove("active", "default-screen");
+      });
+
+      if (target && target.classList.contains("screen")) {
+        target.classList.add("active");
+        return;
+      }
+
+      const firstScreen = document.getElementById("screen-1");
+      if (firstScreen) {
+        firstScreen.classList.add("active");
+      }
+    }
+
+    function initMissionBuilder() {
+      const missionBuilder = document.querySelector(".mission-builder");
+      if (!missionBuilder) {
+        return;
+      }
+
+      const goalButtons = Array.from(
+        missionBuilder.querySelectorAll(".goal-chip-btn"),
+      );
+      const textarea = missionBuilder.querySelector(".mission-input");
+      const characterCount = missionBuilder.querySelector(".character-count");
+
+      if (!textarea || !characterCount) {
+        return;
+      }
+
+      function selectedGoals() {
+        return goalButtons
+          .filter((button) => button.classList.contains("selected"))
+          .map((button) => button.getAttribute("data-goal") || "")
+          .filter(Boolean);
+      }
+
+      function updateMissionState() {
+        const text = textarea.value;
+        characterCount.textContent = `${text.length} / 200`;
+      }
+
+      goalButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const isSelected = button.classList.contains("selected");
+
+          if (isSelected) {
+            button.classList.remove("selected");
+            updateMissionState();
+            return;
+          }
+
+          const currentSelections = selectedGoals();
+          if (currentSelections.length >= MAX_GOALS) {
+            return;
+          }
+
+          button.classList.add("selected");
+          updateMissionState();
+        });
+      });
+
+      textarea.addEventListener("input", updateMissionState);
+      updateMissionState();
+    }
+
+    window.addEventListener("hashchange", showScreenFromHash);
+    showScreenFromHash();
+    initMissionBuilder();
+  })();
+</script>
+</body>
+</html>

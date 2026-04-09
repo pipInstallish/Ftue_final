@@ -1,0 +1,10 @@
+.DS_Store
+.git
+.next
+node_modules
+src
+*.md
+next-env.d.ts
+next.config.ts
+package.json
+tsconfig.json

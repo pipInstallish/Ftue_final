@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaler Personalized Report Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
+  />
+  <style>
+    :root {
+      --font: "Plus Jakarta Sans", sans-serif;
+      --font-display: "Source Serif 4", serif;
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-50: #f8f8f8;
+      --gray-100: #efefef;
+      --gray-200: #dddddd;
+      --gray-500: #777777;
+      --gray-700: #383838;
+      --gray-900: #151515;
+      --border: #d4d4d4;
+      --border-strong: #1a1a1a;
+      --cta-black: #050505;
+      --max: 1220px;
+    }
+
+    * {
+      box-sizing: border-box;
+      border-radius: 0 !important;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 246, 246, 0.98)),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0,
+          transparent 79px,
+          rgba(0, 0, 0, 0.02) 79px,
+          rgba(0, 0, 0, 0.02) 80px
+        );
+      color: var(--black);
+      font-family: var(--font);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .report-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 9;
+      background: rgba(248, 248, 248, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .report-topbar .shell {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border-strong);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      background: var(--white);
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .button,
+    .button-secondary {
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 18px;
+      border: 1px solid var(--border-strong);
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+
+    .button {
+      background: var(--cta-black);
+      color: var(--white);
+    }
+
+    .button-secondary {
+      background: var(--white);
+    }
+
+    .hero {
+      padding: 42px 0 28px;
+      border-bottom: 1px solid var(--border-strong);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 24px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+
+    .hero-title,
+    .section-title {
+      margin: 16px 0 0;
+      font-family: var(--font-display);
+      font-size: clamp(44px, 7vw, 88px);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+    }
+
+    .hero-subtitle,
+    .section-subtitle {
+      margin: 20px 0 0;
+      max-width: 780px;
+      color: var(--gray-700);
+      line-height: 1.8;
+      font-size: 18px;
+    }
+
+    .hero-meta {
+      border: 1px solid var(--border-strong);
+      background: var(--white);
+      padding: 22px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-meta strong {
+      font-size: 18px;
+    }
+
+    .hero-meta p {
+      margin: 0;
+      color: var(--gray-700);
+      line-height: 1.75;
+    }
+
+    .section {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header {
+      margin-bottom: 26px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(34px, 4.5vw, 58px);
+    }
+
+    .grid-2,
+    .grid-3,
+    .story-grid,
+    .reward-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+
+    .grid-3,
+    .story-grid,
+    .reward-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card,
+    .story,
+    .reward,
+    .stat-band,
+    .cta-section,
+    .footer-cta {
+      border: 1px solid var(--border-strong);
+      background: var(--white);
+    }
+
+    .card,
+    .story,
+    .reward,
+    .stat-band,
+    .cta-section,
+    .footer-cta {
+      padding: 22px;
+    }
+
+    .card h3,
+    .story h3,
+    .reward h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .card p,
+    .story p,
+    .reward p,
+    .card li {
+      margin: 0;
+      color: var(--gray-700);
+      line-height: 1.8;
+    }
+
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .skill {
+      border: 1px solid var(--border-strong);
+      padding: 10px 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+    }
+
+    .skill.dim {
+      color: var(--gray-500);
+      border-color: var(--border);
+    }
+
+    .axis-list,
+    .playbook,
+    .story-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .axis-list li,
+    .playbook li,
+    .story-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+
+    .axis-list li:first-child,
+    .playbook li:first-child,
+    .story-list li:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .axis-score {
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .axis-score.low {
+      color: var(--gray-500);
+    }
+
+    .axis-score.mid {
+      color: var(--gray-700);
+    }
+
+    .axis-score.high {
+      color: var(--black);
+    }
+
+    .story-meta,
+    .reward-meta {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+
+    .story-quote {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-display);
+      font-size: 21px;
+      line-height: 1.35;
+      letter-spacing: -0.03em;
+    }
+
+    .cta-section,
+    .footer-cta {
+      display: grid;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .float-cta {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      border: 1px solid var(--border-strong);
+      background: var(--cta-black);
+      color: var(--white);
+      padding: 16px 18px;
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .grid-2,
+      .grid-3,
+      .story-grid,
+      .reward-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(var(--max), calc(100% - 24px));
+      }
+
+      .report-topbar .shell,
+      .topbar-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="report-topbar">
+    <div class="shell">
+      <div class="brand">
+        <div class="brand-mark"><i class="ph ph-chart-line-up"></i></div>
+        Scaler CPE Report v2
+      </div>
+      <div class="topbar-actions">
+        <a class="button-secondary" href="index.html"><i class="ph ph-arrow-left"></i> Back to FTUE</a>
+        <a class="button" href="#footer-cta">Book free career consultation</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <div class="eyebrow">Personalized report • AI-shaped career lens</div>
+        <h1 class="hero-title">You are not behind. The market just changed faster than most people expected.</h1>
+        <p class="hero-subtitle">
+          This report reframes the learner’s next move through the lens of AI urgency, current
+          market readiness, and realistic role targets. It is meant to feel specific to the
+          learner’s path, not like a generic readiness score.
+        </p>
+      </div>
+      <div class="hero-meta">
+        <strong>Ish Gautam • 3.4 years • Software Engineer</strong>
+        <p>
+          Desired shift: stronger backend role with sharper interview readiness and better AI
+          leverage in day-to-day execution.
+        </p>
+        <p>
+          Current pattern: technically comfortable, increasingly using AI for coding and debugging,
+          but still looking for stronger judgment, workflow depth, and consistent preparation.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-header">
+        <div class="eyebrow">01 · Your Snapshot</div>
+        <h2 class="section-title">How recruiters are likely to read you today.</h2>
+        <p class="section-subtitle">
+          The learner already has real technical experience, but the profile still reads like
+          someone who is promising, not yet undeniable.
+        </p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Current market impression</h3>
+          <p>
+            Recruiters will likely see a working engineer with enough experience to be considered
+            seriously, but with a profile that still needs stronger evidence of depth, sharper
+            execution stories, and more interview-grade clarity.
+          </p>
+          <div class="skills">
+            <div class="skill">Backend foundations</div>
+            <div class="skill">Hands-on delivery</div>
+            <div class="skill dim">Interview sharpness</div>
+            <div class="skill dim">System articulation</div>
+            <div class="skill">AI-assisted execution</div>
+            <div class="skill dim">AI verification depth</div>
+          </div>
+        </div>
+        <div class="stat-band">
+          <div class="eyebrow">Snapshot readout</div>
+          <h3 style="margin: 16px 0 10px;">High potential, moderate leverage, incomplete proof.</h3>
+          <p>
+            The strongest opportunity is not starting from zero. It is converting existing
+            capability into interview-ready clarity, stronger execution judgment, and more credible
+            AI-era workflows.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-header">
+        <div class="eyebrow">02 · The Gap</div>
+        <h2 class="section-title">Where the learner stands against the median engineer landing target offers.</h2>
+        <p class="section-subtitle">
+          This is not a shame screen. It is a directional read on where the market expects more.
+        </p>
+      </div>
+      <div class="card">
+        <ul class="axis-list">
+          <li><span>Problem solving under pressure</span><span class="axis-score mid">6.8 / 10</span></li>
+          <li><span>Interview readiness and consistency</span><span class="axis-score low">5.9 / 10</span></li>
+          <li><span>Backend depth and systems articulation</span><span class="axis-score mid">6.4 / 10</span></li>
+          <li><span>Project storytelling and credibility</span><span class="axis-score low">5.7 / 10</span></li>
+          <li><span>AI-assisted productivity</span><span class="axis-score high">7.4 / 10</span></li>
+          <li><span>AI review, debugging, and judgment</span><span class="axis-score low">5.6 / 10</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-header">
+        <div class="eyebrow">03 · Two Paths</div>
+        <h2 class="section-title">The learner has a free path and a structured path. Both are honest. One compounds faster.</h2>
+        <p class="section-subtitle">
+          This should feel like a choice architecture, not a hard sell.
+        </p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Free track</h3>
+          <p>
+            Piece together interview prep, role-specific AI learning, projects, and accountability
+            independently. This can work, but only if the learner already has enough structure,
+            consistency, and feedback loops to keep momentum from collapsing.
+          </p>
+          <ul class="playbook" style="margin-top: 18px;">
+            <li><span>Low financial commitment</span><span>High self-management load</span></li>
+            <li><span>Flexible timing</span><span>Slower correction cycles</span></li>
+            <li><span>Useful for already disciplined learners</span><span>Easy to drift without feedback</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Structured track</h3>
+          <p>
+            Use Scaler to tighten learning sequence, interview preparation, AI-era execution
+            habits, and accountability. This path is better when the learner wants faster
+            compounding, better feedback, and less wasted motion.
+          </p>
+          <ul class="playbook" style="margin-top: 18px;">
+            <li><span>Higher commitment</span><span>Sharper weekly momentum</span></li>
+            <li><span>Better feedback density</span><span>Less guesswork on what to do next</span></li>
+            <li><span>Useful for serious role transitions</span><span>Requires real consistency</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-header">
+        <div class="eyebrow">04 · People Like You</div>
+        <h2 class="section-title">Three alumni arcs that begin near the same starting point.</h2>
+        <p class="section-subtitle">
+          These stories should reassure the learner that the path is believable, not abstract.
+        </p>
+      </div>
+      <div class="story-grid">
+        <article class="story">
+          <div class="story-meta">Backend engineer → SDE-2</div>
+          <h3>Rohit moved from scattered prep to a stronger backend narrative.</h3>
+          <p>Previous: mid-tier product company • Next: larger product org • Salary uplift: 82%</p>
+          <div class="story-quote">“The biggest shift was not coding more. It was learning how to think clearly under pressure and explain trade-offs.”</div>
+        </article>
+        <article class="story">
+          <div class="story-meta">Working engineer → stronger systems role</div>
+          <h3>Ananya converted decent fundamentals into interview credibility.</h3>
+          <p>Previous: services background • Next: backend-heavy product role • Salary uplift: 1.7x</p>
+          <div class="story-quote">“I stopped preparing randomly and started building one coherent story about what kind of engineer I was becoming.”</div>
+        </article>
+        <article class="story">
+          <div class="story-meta">AI-curious engineer → AI-aware executor</div>
+          <h3>Manav learned where AI helped, and where judgment still had to stay human.</h3>
+          <p>Previous: frontend engineer • Next: fullstack role with stronger ownership • Salary uplift: 64%</p>
+          <div class="story-quote">“AI sped me up, but the real jump came when I got better at reviewing, debugging, and shipping responsibly.”</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-header">
+        <div class="eyebrow">05 · Why Now</div>
+        <h2 class="section-title">AI is not only replacing tasks. It is changing what “strong” looks like in the role.</h2>
+        <p class="section-subtitle">
+          The urgency comes from workflow shifts, not just tool awareness.
+        </p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>What is already being commoditized</h3>
+          <ul class="story-list">
+            <li><span>Basic scaffolding and routine code generation</span><span>Already accelerated by AI</span></li>
+            <li><span>First-draft debugging and documentation</span><span>Increasingly automated</span></li>
+            <li><span>Shallow research and syntax recall</span><span>No longer a differentiator</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>What becomes more valuable now</h3>
+          <ul class="story-list">
+            <li><span>Prompting with precision</span><span>Controls leverage quality</span></li>
+            <li><span>Reviewing and debugging AI output</span><span>Protects correctness</span></li>
+            <li><span>System thinking and trade-off judgment</span><span>Separates strong engineers</span></li>
+            <li><span>Shipping with accountability</span><span>Turns speed into trust</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="cta-section" id="cta">
+        <div class="eyebrow">AI workflow playbook</div>
+        <h3 style="margin: 0;">The next edge is not only using tools. It is building a workflow around them.</h3>
+        <p>
+          The right next step for this learner is learning when to use AI for exploration, when to
+          use it for acceleration, and when to slow down and verify with rigor. That is now part of
+          what employability looks like.
+        </p>
+        <div class="topbar-actions" style="justify-content: flex-start;">
+          <a class="button" href="#footer-cta">Book free career consultation</a>
+          <a class="button-secondary" href="index.html#screen-t-2">View AI readiness inputs</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="section-header">
+        <div class="eyebrow">06 · The Reward</div>
+        <h2 class="section-title">If the learner compounds well, these are the role bands that become realistic.</h2>
+        <p class="section-subtitle">
+          This section should feel grounded in real opportunity, not generic aspiration.
+        </p>
+      </div>
+      <div class="reward-grid">
+        <article class="reward">
+          <div class="reward-meta">Target role 01</div>
+          <h3>Backend Engineer</h3>
+          <p>Live salary range: 18–28 LPA</p>
+          <p>Open role volume: 2,300+ active listings</p>
+        </article>
+        <article class="reward">
+          <div class="reward-meta">Target role 02</div>
+          <h3>Software Engineer II</h3>
+          <p>Live salary range: 24–38 LPA</p>
+          <p>Open role volume: 1,100+ active listings</p>
+        </article>
+        <article class="reward">
+          <div class="reward-meta">Target role 03</div>
+          <h3>Full Stack Engineer</h3>
+          <p>Live salary range: 20–34 LPA</p>
+          <p>Open role volume: 1,800+ active listings</p>
+        </article>
+      </div>
+
+      <div class="footer-cta" id="footer-cta">
+        <div class="eyebrow">Final CTA</div>
+        <h3 style="margin: 0;">The learner does not need more random effort. They need a sharper path.</h3>
+        <p>
+          If the goal is to become more competitive in an AI-shaped engineering market, the next
+          move should reduce guesswork and increase compounding.
+        </p>
+        <div class="topbar-actions" style="justify-content: flex-start;">
+          <a class="button" href="mailto:career@scaler.com?subject=Book%20my%20free%20career%20consultation">Book your free career consultation</a>
+          <a class="button-secondary" href="index.html">Revisit questionnaire</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <a class="float-cta" href="#cta"><i class="ph ph-phone-call"></i> Book consultation</a>
+</body>
+</html>

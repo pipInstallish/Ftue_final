@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaler Onboarding Letter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css"
+  />
+  <style>
+    :root {
+      --font: "Plus Jakarta Sans", sans-serif;
+      --font-display: "Source Serif 4", serif;
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-50: #f8f8f8;
+      --gray-100: #efefef;
+      --gray-200: #dddddd;
+      --gray-500: #777777;
+      --gray-700: #383838;
+      --border: #d4d4d4;
+      --border-strong: #1a1a1a;
+      --cta-black: #050505;
+      --accent: #bf7a17;
+      --max: 1080px;
+    }
+
+    * {
+      box-sizing: border-box;
+      border-radius: 0 !important;
+    }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 246, 246, 0.98)),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0,
+          transparent 79px,
+          rgba(0, 0, 0, 0.02) 79px,
+          rgba(0, 0, 0, 0.02) 80px
+        );
+      color: var(--black);
+      font-family: var(--font);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .page {
+      padding: 52px 0 56px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+
+    .headline {
+      margin: 12px 0 0;
+      font-family: var(--font-display);
+      font-size: clamp(42px, 7vw, 74px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      max-width: 920px;
+    }
+
+    .subheading {
+      margin: 18px 0 0;
+      color: var(--gray-500);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .letter-card {
+      margin-top: 26px;
+      padding: 32px;
+      border-left: 3px solid var(--accent);
+      background: rgba(255, 255, 255, 0.92);
+    }
+
+    .letter-card p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--gray-700);
+    }
+
+    .letter-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .letter-card strong {
+      color: var(--black);
+      font-weight: 800;
+    }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .insight-card {
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, 0.92);
+      padding: 22px;
+    }
+
+    .insight-card h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .insight-card ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 10px;
+      color: var(--gray-700);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .cta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .status-line {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      font-size: 14px;
+      color: var(--gray-700);
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .button,
+    .button-secondary {
+      min-height: 54px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 22px;
+      border: 1px solid var(--border-strong);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .button {
+      background: var(--cta-black);
+      color: var(--white);
+    }
+
+    .button-secondary {
+      background: var(--white);
+    }
+
+    @media (max-width: 860px) {
+      .insight-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell page">
+    <div class="eyebrow">Personalized completion note</div>
+    <h1 class="headline">Ish, here begins your backend move.</h1>
+    <div class="subheading">Your onboarding note</div>
+
+    <section class="letter-card">
+      <div class="letter-stack">
+        <p>
+          You are a <strong>software engineer with 3.4 years of experience</strong>, and you are
+          here because you want to switch into a stronger backend role, crack SDE interviews, and
+          learn how to use AI effectively without relying on it.
+        </p>
+
+        <p>
+          Right now, your profile reads like someone with comfortable programming fundamentals,
+          working SQL confidence, and a base in DSA that can go further, while your AI readiness
+          already shows regular usage but a clear blocker around
+          <strong>debugging AI-generated code without losing your own judgment</strong>.
+        </p>
+
+        <p>
+          The first phase will not feel like random content consumption. It will feel like
+          <strong>structured pressure in the right places</strong>: better backend thinking, sharper
+          debugging habits, more deliberate problem solving, and earlier clarity on when AI should
+          speed you up versus when it should be challenged.
+        </p>
+
+        <p>
+          If your goal is to switch into backend with stronger outcomes, then
+          <strong>consistency has to become part of your identity</strong>.
+          Backend roles reward people who can think clearly, debug independently, and use leverage
+          well without outsourcing judgment.
+        </p>
+      </div>
+    </section>
+
+    <section class="insight-grid">
+      <article class="insight-card">
+        <h3>What surprised us about your profile</h3>
+        <ul>
+          <li>You are not starting from zero. Your role already gives you enough real-world context to make backend depth practical, not abstract.</li>
+          <li>Your motivation around curriculum and mentorship suggests you are not looking for inspiration alone. You want structure that leads to outcomes.</li>
+          <li>Your goal is not just job switch. It is a more credible engineering identity in an AI-shaped market.</li>
+        </ul>
+      </article>
+
+      <article class="insight-card">
+        <h3>What early modules will address for you</h3>
+        <ul>
+          <li>They will help you become more interview-ready for backend engineering roles by tightening the problem-solving and systems thinking expected in stronger hiring loops.</li>
+          <li>They will directly help with your blocker around debugging AI-generated code, so AI becomes a useful accelerator in your workflow instead of a source of confusion.</li>
+          <li>They will push your current proficiency summary toward stronger execution by helping you turn existing programming comfort into more reliable backend decision-making.</li>
+        </ul>
+      </article>
+    </section>
+
+    <div class="cta-row">
+      <div class="status-line"><i class="ph ph-sparkle"></i> Your 12-month roadmap is ready next</div>
+      <div class="cta-actions">
+        <a class="button" href="roadmap.html">View your 12-month roadmap <i class="ph ph-arrow-right"></i></a>
+        <a class="button-secondary" href="mailto:?subject=My%20Scaler%20Onboarding%20Letter&body=Hi,%0D%0A%0D%0AHere%20is%20my%20Scaler%20onboarding%20letter.%0D%0A">Email this to me</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
