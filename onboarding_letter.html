@@ -80,7 +80,7 @@
       font-size: clamp(42px, 7vw, 74px);
       line-height: 0.95;
       letter-spacing: -0.05em;
-      max-width: 920px;
+      max-width: 760px;
     }
 
     .subheading {
@@ -89,6 +89,117 @@
       font-size: 15px;
       font-weight: 600;
       letter-spacing: 0.04em;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .alumni-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .alumni-card {
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, 0.92);
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .alumni-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .alumni-photo {
+      width: 96px;
+      height: 96px;
+      border: 1px solid var(--border-strong);
+      background: linear-gradient(135deg, #efefef, #d9d9d9);
+      display: block;
+      flex: 0 0 auto;
+      overflow: hidden;
+      object-fit: cover;
+    }
+
+    .alumni-meta {
+      display: grid;
+      gap: 4px;
+    }
+
+    .alumni-name {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .alumni-role {
+      color: var(--gray-500);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .alumni-journey {
+      display: grid;
+      gap: 10px;
+    }
+
+    .journey-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .journey-label {
+      min-width: 92px;
+      color: var(--gray-500);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .journey-value {
+      color: var(--black);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .org-logo {
+      min-width: 108px;
+      height: 44px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 4px 10px;
+    }
+
+    .org-logo img {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+    }
+
+    .alumni-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-700);
     }
 
     .letter-card {
@@ -191,6 +302,10 @@
     }
 
     @media (max-width: 860px) {
+      .alumni-strip {
+        grid-template-columns: 1fr;
+      }
+
       .insight-grid {
         grid-template-columns: 1fr;
       }
@@ -204,9 +319,82 @@
 </head>
 <body>
   <main class="shell page">
-    <div class="eyebrow">Personalized completion note</div>
-    <h1 class="headline">Ish, here begins your backend move.</h1>
-    <div class="subheading">Your onboarding note</div>
+    <section class="hero-grid">
+      <div class="eyebrow">Personalized completion note</div>
+      <h1 class="headline">Ish, here begins your backend move.</h1>
+      <div class="subheading">Scaler alumni who had a similar journey as yours</div>
+
+      <aside class="alumni-strip" aria-label="Similar alumni transitions">
+        <article class="alumni-card">
+          <div class="alumni-top">
+            <img class="alumni-photo" src="assets/alumni/mayank-chauhan.jpeg" alt="Mayank Chauhan" />
+            <div class="alumni-meta">
+              <div class="alumni-name">Mayank Chauhan</div>
+              <div class="alumni-role">SDE 2 at CYware</div>
+            </div>
+          </div>
+          <div class="alumni-journey">
+            <div class="journey-row">
+              <div class="journey-label">Before Scaler</div>
+              <div class="journey-value">Fresher</div>
+            </div>
+            <div class="journey-row">
+              <div class="journey-label">After Scaler</div>
+              <div class="org-logo">
+                <img src="assets/alumni/logos/cyware.png" alt="CYware" />
+              </div>
+            </div>
+          </div>
+          <a class="alumni-link" href="https://www.linkedin.com/posts/mayank6_iamscaler-coding-programmers-activity-6878628380611248128-D0QY/" target="_blank" rel="noreferrer"><i class="ph ph-linkedin-logo"></i> View LinkedIn</a>
+        </article>
+
+        <article class="alumni-card">
+          <div class="alumni-top">
+            <img class="alumni-photo" src="assets/alumni/saurabh-singh.jpeg" alt="Saurabh Singh" />
+            <div class="alumni-meta">
+              <div class="alumni-name">Saurabh Singh</div>
+              <div class="alumni-role">SDE - Full Stack @ Lido</div>
+            </div>
+          </div>
+          <div class="alumni-journey">
+            <div class="journey-row">
+              <div class="journey-label">Before Scaler</div>
+              <div class="journey-value">Fresher</div>
+            </div>
+            <div class="journey-row">
+              <div class="journey-label">After Scaler</div>
+              <div class="org-logo">
+                <img src="assets/alumni/logos/lido.jpeg" alt="Lido" />
+              </div>
+            </div>
+          </div>
+          <a class="alumni-link" href="https://www.linkedin.com/in/-saurabh--singh/?originalSubdomain=in" target="_blank" rel="noreferrer"><i class="ph ph-linkedin-logo"></i> View LinkedIn</a>
+        </article>
+
+        <article class="alumni-card">
+          <div class="alumni-top">
+            <img class="alumni-photo" src="assets/alumni/siddharth-aadarsh.jpeg" alt="Siddharth Aadarsh" />
+            <div class="alumni-meta">
+              <div class="alumni-name">Siddharth Aadarsh</div>
+              <div class="alumni-role">Backend Developer @ HealthifyMe</div>
+            </div>
+          </div>
+          <div class="alumni-journey">
+            <div class="journey-row">
+              <div class="journey-label">Before Scaler</div>
+              <div class="journey-value">Fresher</div>
+            </div>
+            <div class="journey-row">
+              <div class="journey-label">After Scaler</div>
+              <div class="org-logo">
+                <img src="assets/alumni/logos/healthifyme.png" alt="HealthifyMe" />
+              </div>
+            </div>
+          </div>
+          <a class="alumni-link" href="https://www.linkedin.com/posts/siddharth-aadarsh_scaler-healthifyme-licious-activity-6873682154916855808-fX6J/" target="_blank" rel="noreferrer"><i class="ph ph-linkedin-logo"></i> View LinkedIn</a>
+        </article>
+      </aside>
+    </section>
 
     <section class="letter-card">
       <div class="letter-stack">
