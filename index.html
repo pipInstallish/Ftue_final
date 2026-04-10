@@ -201,21 +201,14 @@
     }
 
     #screen-1 .welcome-content::after {
-      content: none;
-    }
-
-    .welcome-wheel {
+      content: "";
       position: absolute;
       right: 20px;
       bottom: 14px;
       width: clamp(280px, 22vw, 420px);
+      aspect-ratio: 1 / 1;
+      background: url("Union.png") no-repeat center / contain;
       pointer-events: none;
-    }
-
-    .welcome-wheel img {
-      display: block;
-      width: 100%;
-      height: auto;
     }
 
     #screen-1 .topbar {
@@ -557,22 +550,6 @@
       white-space: nowrap;
     }
 
-    #screen-3 .form-shell {
-      padding: clamp(18px, 2.2vw, 30px);
-    }
-
-    #screen-3 .field-grid {
-      gap: clamp(16px, 1.8vw, 22px);
-    }
-
-    #screen-3 .field {
-      gap: 8px;
-    }
-
-    #screen-3 .cta-row {
-      margin-top: 18px;
-    }
-
     #screen-t-1 .section-title {
       max-width: 26ch;
       text-wrap: balance;
@@ -591,11 +568,11 @@
       grid-column: span 9;
     }
 
-    #screen-2 .field-grid .field:nth-child(3),
-    #screen-2 .field-grid .field:nth-child(4) {
-      grid-column: span 6;
+    #screen-2 .field-grid .field:nth-child(3) {
+      grid-column: span 12;
     }
 
+    #screen-2 .field-grid .field:nth-child(4),
     #screen-2 .field-grid .field:nth-child(5) {
       grid-column: span 6;
     }
@@ -605,10 +582,14 @@
     }
 
     #screen-2 .field-grid .field:nth-child(7) {
-      grid-column: span 3;
+      grid-column: span 6;
     }
 
     #screen-2 .field-grid .field:nth-child(8) {
+      grid-column: span 3;
+    }
+
+    #screen-2 .field-grid .field:nth-child(9) {
       grid-column: span 9;
     }
 
@@ -893,6 +874,19 @@
       letter-spacing: -0.01em;
     }
 
+    .step-alert {
+      display: none;
+      margin-top: 10px;
+      color: #c62828;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    .step-alert.is-visible {
+      display: block;
+    }
+
     .report-preview {
       background: var(--white);
     }
@@ -969,10 +963,6 @@
       }
 
       #screen-1 .welcome-content::after {
-        content: none;
-      }
-
-      .welcome-wheel {
         width: 220px;
         right: 10px;
         bottom: 8px;
@@ -1046,9 +1036,6 @@
             </div>
           </div>
         </div>
-        <div class="welcome-wheel" aria-hidden="true">
-          <img src="Union.png" alt="" />
-        </div>
       </main>
     </div>
   </section>
@@ -1086,6 +1073,10 @@
             <div class="field">
               <label>Full name</label>
               <input type="text" value="Ish Gautam" />
+            </div>
+            <div class="field full">
+              <label>Enter your company's email (optional)</label>
+              <input type="email" value="" data-optional="true" />
             </div>
             <div class="field">
               <label>Date of birth</label>
@@ -1357,8 +1348,8 @@
                 <button type="button" class="goal-chip-btn selected" data-goal="Learn to use AI to code, debug, and build faster">
                   <strong>Learn to use AI to code, debug, and build faster</strong>
                 </button>
-                <button type="button" class="goal-chip-btn" data-goal="Increase my salary by 2x+">
-                  <strong>Increase my salary by 2x+</strong>
+                <button type="button" class="goal-chip-btn" data-goal="Move into higher-paying opportunities">
+                  <strong>Move into higher-paying opportunities</strong>
                 </button>
                 <button type="button" class="goal-chip-btn" data-goal="Stay relevant in tech by learning to use AI">
                   <strong>Stay relevant in tech by learning to use AI</strong>
@@ -1664,6 +1655,16 @@
   (function () {
     const screens = Array.from(document.querySelectorAll(".screen"));
     const MAX_GOALS = 5;
+    const VALIDATED_SCREENS = new Set([
+      "screen-2",
+      "screen-3",
+      "screen-t-1",
+      "screen-t-2b",
+      "screen-t-3",
+      "screen-nt-1",
+      "screen-nt-2",
+      "screen-nt-3",
+    ]);
 
     function showScreenFromHash() {
       const hash = window.location.hash;
@@ -1736,6 +1737,130 @@
       updateMissionState();
     }
 
+    function getStepAlert(screen) {
+      if (!screen) {
+        return null;
+      }
+
+      let alert = screen.querySelector(".step-alert");
+      if (alert) {
+        return alert;
+      }
+
+      alert = document.createElement("p");
+      alert.className = "step-alert";
+      alert.textContent = "Please fill all the fields";
+
+      const narrativeHead = screen.querySelector(".narrative-head");
+      if (narrativeHead) {
+        narrativeHead.appendChild(alert);
+        return alert;
+      }
+
+      const sidebarCopy = screen.querySelector(".sidebar-copy");
+      if (sidebarCopy?.parentElement) {
+        sidebarCopy.insertAdjacentElement("afterend", alert);
+        return alert;
+      }
+
+      const topbar = screen.querySelector(".topbar");
+      if (topbar?.parentElement) {
+        topbar.insertAdjacentElement("afterend", alert);
+        return alert;
+      }
+
+      screen.prepend(alert);
+      return alert;
+    }
+
+    function standardFieldsAreFilled(screen) {
+      const fields = Array.from(
+        screen.querySelectorAll("input, select, textarea"),
+      ).filter((field) => {
+        if (field.closest(".topbar")) {
+          return false;
+        }
+
+        if (field.dataset.optional === "true") {
+          return false;
+        }
+
+        const placeholder = field.getAttribute("placeholder") || "";
+        if (placeholder.startsWith("Add any other")) {
+          return false;
+        }
+
+        return true;
+      });
+
+      return fields.every((field) => field.value.trim() !== "");
+    }
+
+    function chipSetsAreFilled(screen) {
+      const chipSets = Array.from(screen.querySelectorAll(".chip-set"));
+      return chipSets.every((chipSet) => chipSet.querySelector(".chip.active"));
+    }
+
+    function goalSelectionsAreFilled(screen) {
+      const goalGrid = screen.querySelector(".goal-grid");
+      if (!goalGrid) {
+        return true;
+      }
+
+      return Boolean(goalGrid.querySelector(".goal-chip-btn.selected"));
+    }
+
+    function validateScreen(screen) {
+      return (
+        standardFieldsAreFilled(screen) &&
+        chipSetsAreFilled(screen) &&
+        goalSelectionsAreFilled(screen)
+      );
+    }
+
+    function updateScreenAlert(screen) {
+      const alert = getStepAlert(screen);
+      if (!alert) {
+        return true;
+      }
+
+      const isValid = validateScreen(screen);
+      alert.classList.toggle("is-visible", !isValid);
+      return isValid;
+    }
+
+    function initStepValidation() {
+      screens.forEach((screen) => {
+        if (!VALIDATED_SCREENS.has(screen.id)) {
+          return;
+        }
+
+        getStepAlert(screen);
+
+        const watchedFields = screen.querySelectorAll("input, select, textarea");
+        watchedFields.forEach((field) => {
+          field.addEventListener("input", () => updateScreenAlert(screen));
+          field.addEventListener("change", () => updateScreenAlert(screen));
+        });
+
+        const buttons = screen.querySelectorAll(".chip, .goal-chip-btn");
+        buttons.forEach((button) => {
+          button.addEventListener("click", () => {
+            window.requestAnimationFrame(() => updateScreenAlert(screen));
+          });
+        });
+
+        const forwardButtons = screen.querySelectorAll(".button[href]");
+        forwardButtons.forEach((button) => {
+          button.addEventListener("click", (event) => {
+            if (!updateScreenAlert(screen)) {
+              event.preventDefault();
+            }
+          });
+        });
+      });
+    }
+
     function initSelectableChips() {
       const chips = Array.from(document.querySelectorAll(".chip-set .chip"));
 
@@ -1766,6 +1891,7 @@
     window.addEventListener("hashchange", showScreenFromHash);
     showScreenFromHash();
     initMissionBuilder();
+    initStepValidation();
     initSelectableChips();
   })();
 </script>
