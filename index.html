@@ -201,14 +201,21 @@
     }
 
     #screen-1 .welcome-content::after {
-      content: "";
+      content: none;
+    }
+
+    .welcome-wheel {
       position: absolute;
       right: 20px;
       bottom: 14px;
       width: clamp(280px, 22vw, 420px);
-      aspect-ratio: 1 / 1;
-      background: url("Union.png") no-repeat center / contain;
       pointer-events: none;
+    }
+
+    .welcome-wheel img {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
     #screen-1 .topbar {
@@ -946,6 +953,10 @@
       }
 
       #screen-1 .welcome-content::after {
+        content: none;
+      }
+
+      .welcome-wheel {
         width: 220px;
         right: 10px;
         bottom: 8px;
@@ -1018,6 +1029,9 @@
               <div class="status-line"><i class="ph ph-lock-key"></i> A short intake before your dashboard opens</div>
             </div>
           </div>
+        </div>
+        <div class="welcome-wheel" aria-hidden="true">
+          <img src="Union.png" alt="" />
         </div>
       </main>
     </div>
