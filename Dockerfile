@@ -5,6 +5,7 @@ COPY index.html /usr/share/nginx/html/
 COPY onboarding_letter.html /usr/share/nginx/html/
 COPY report.html /usr/share/nginx/html/
 COPY roadmap.html /usr/share/nginx/html/
+COPY Union.png /usr/share/nginx/html/
 COPY assets /usr/share/nginx/html/assets
 
 EXPOSE 80
