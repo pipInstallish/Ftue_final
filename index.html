@@ -96,6 +96,10 @@
       padding: 0 140px;
     }
 
+    #screen-1 {
+      position: relative;
+    }
+
     .screen.active,
     .screen.default-screen {
       display: block;
@@ -104,7 +108,7 @@
     .frame {
       width: min(100%, var(--max));
       margin: 0 auto;
-      min-height: calc(100vh - 52px);
+      min-height: 100vh;
       display: grid;
       grid-template-columns: 376px 1fr;
       background: var(--white);
@@ -179,10 +183,43 @@
       display: flex;
       flex-direction: column;
       background: var(--white);
+      border: 1px solid var(--border-light);
     }
 
     .welcome-content {
       padding: clamp(26px, 3vw, 52px);
+    }
+
+    #screen-1 .welcome-content {
+      border: 1px solid var(--border-light);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(var(--border-light), var(--border-light)) 0 96px / 100% 1px no-repeat,
+        linear-gradient(90deg, var(--border-light), var(--border-light)) 64% 0 / 1px 100% no-repeat;
+    }
+
+    #screen-1 .welcome-content::after {
+      content: "";
+      position: absolute;
+      right: 20px;
+      bottom: 14px;
+      width: clamp(280px, 22vw, 420px);
+      aspect-ratio: 1 / 1;
+      background: url("Union.png") no-repeat center / contain;
+      pointer-events: none;
+    }
+
+    #screen-1 .topbar {
+      margin-bottom: 0;
+      border-bottom: 0;
+      padding: 24px 28px;
+    }
+
+    #screen-1 .hero-grid {
+      padding: 26px 28px 34px;
+      min-height: auto;
     }
 
     .form-content {
@@ -383,6 +420,21 @@
       margin-top: 0;
     }
 
+    #screen-t-3 .cta-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    #screen-t-3 .cta-row .button {
+      order: 1;
+    }
+
+    #screen-t-3 .cta-row .status-line {
+      order: 2;
+      margin-top: 0;
+    }
+
     .hero-title,
     .section-title,
     .quote-text,
@@ -503,6 +555,11 @@
       text-wrap: balance;
     }
 
+    #screen-t-3 .section-title {
+      max-width: 28ch;
+      text-wrap: balance;
+    }
+
     #screen-2 .field-grid .field:nth-child(1) {
       grid-column: span 3;
     }
@@ -612,12 +669,17 @@
     }
 
     .chip:hover:not(.active):not(.muted) {
-      background: #f2f2f2;
-      border-color: #b8bec9;
-      color: var(--text);
+      background: #f5f9ff;
+      border-color: #d4e2ff;
+      color: var(--blue);
     }
 
-    .chip.active,
+    .chip.active {
+      border-color: #bfd4ff;
+      background: #e9f1ff;
+      color: var(--blue);
+    }
+
     .choice-card.active {
       border-color: var(--text-dark);
       background: var(--text-dark);
@@ -674,6 +736,33 @@
       padding: 18px 18px 18px 48px;
       cursor: pointer;
       transition: border-color 140ms ease, background 140ms ease, color 140ms ease;
+    }
+
+    #screen-t-3 .goal-chip-btn {
+      min-height: 78px;
+      padding: 14px 16px 14px 42px;
+    }
+
+    #screen-t-3 .goal-chip-btn:hover:not(.selected) {
+      background: #f5f9ff;
+      border-color: #d4e2ff;
+    }
+
+    #screen-t-3 .goal-chip-btn.selected {
+      background: #e9f1ff;
+      border-color: #bfd4ff;
+      color: var(--blue);
+    }
+
+    #screen-t-3 .goal-chip-btn.selected strong,
+    #screen-t-3 .goal-chip-btn.selected::before {
+      color: var(--blue);
+    }
+
+    #screen-t-3 .goal-chip-btn::before {
+      left: 14px;
+      top: 14px;
+      font-size: 18px;
     }
 
     .goal-chip-btn::before {
@@ -851,6 +940,17 @@
     }
 
     @media (max-width: 760px) {
+      #screen-1 .welcome-content {
+        background:
+          linear-gradient(var(--border-light), var(--border-light)) 0 88px / 100% 1px no-repeat;
+      }
+
+      #screen-1 .welcome-content::after {
+        width: 220px;
+        right: 10px;
+        bottom: 8px;
+      }
+
       .topbar,
       .cta-row {
         flex-direction: column;
@@ -1062,12 +1162,12 @@
               <input type="number" min="0" step="0.1" value="12" placeholder="Enter amount in LPA. Use 0 if fresher." />
             </div>
           </div>
-          <div class="cta-row">
-            <div class="status-line">
-              <i class="ph ph-path"></i> We will use this to personalize the path that follows
-            </div>
-            <a class="button" href="#screen-t-1">Continue to skills and AI <i class="ph ph-arrow-right"></i></a>
+        </div>
+        <div class="cta-row">
+          <div class="status-line">
+            <i class="ph ph-path"></i> We will use this to personalize the path that follows
           </div>
+          <a class="button" href="#screen-t-1">Continue to skills and AI <i class="ph ph-arrow-right"></i></a>
         </div>
       </main>
     </div>
@@ -1264,10 +1364,10 @@
             </div>
           </div>
 
-          <div class="cta-row">
-            <div class="status-line"><i class="ph ph-sparkle"></i> Your onboarding letter is shaped from the intent you leave here with</div>
-            <a class="button" href="onboarding_letter.html">View onboarding letter <i class="ph ph-arrow-right"></i></a>
-          </div>
+        </div>
+        <div class="cta-row">
+          <div class="status-line"><i class="ph ph-sparkle"></i> Your onboarding letter is shaped from the intent you leave here with</div>
+          <a class="button" href="onboarding_letter.html">View onboarding letter <i class="ph ph-arrow-right"></i></a>
         </div>
       </main>
     </div>

@@ -59,26 +59,6 @@
       text-decoration: none;
     }
 
-    .page-back {
-      position: fixed;
-      top: 16px;
-      left: 16px;
-      z-index: 40;
-      min-height: 42px;
-      padding: 0 14px;
-      border: 1px solid var(--border-strong);
-      background: var(--white);
-      color: var(--black);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
     .shell {
       width: min(var(--max), calc(100% - 40px));
       margin: 0 auto;
@@ -280,9 +260,9 @@
 
     .cta-row {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
       margin-top: 28px;
     }
 
@@ -298,6 +278,11 @@
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+      order: 1;
+    }
+
+    .status-line {
+      order: 2;
     }
 
     .button,
@@ -342,11 +327,6 @@
   </style>
 </head>
 <body>
-  <button class="page-back" type="button" onclick="window.history.back()">
-    <i class="ph ph-arrow-left"></i>
-    Back
-  </button>
-
   <main class="shell page">
     <section class="hero-grid">
       <div class="eyebrow">Personalized completion note</div>
